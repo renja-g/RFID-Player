@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFID Spotify Player</title>
+    <link rel="stylesheet" href="/static/style.css"> <!-- Optional CSS -->
+</head>
+<body>
+    <h1>RFID Spotify Player</h1>
+    <a href="/login"><button>Authenticate with Spotify</button></a>
+    <form action="/play" method="post">
+        <label for="rfid">Simulate RFID Scan:</label>
+        <input type="text" id="rfid" name="rfid" required>
+        <button type="submit">Play Song</button>
+    </form>
+</body>
+</html>
