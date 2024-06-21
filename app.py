@@ -4,6 +4,8 @@ from spotipy.oauth2 import SpotifyOAuth
 from rfid_handler import get_song_uri
 from dotenv import load_dotenv
 import os
+import socket
+
 
 
 load_dotenv()
@@ -15,7 +17,23 @@ app.config['SESSION_COOKIE_NAME'] = 'Spotify-Auth-Session'
 # Spotify app credentials
 SPOTIPY_CLIENT_ID = os.getenv('SPOTIPY_CLIENT_ID')
 SPOTIPY_CLIENT_SECRET = os.getenv('SPOTIPY_CLIENT_SECRET')
-SPOTIPY_REDIRECT_URI = 'http://192.168.178.47:8080/callback'
+
+def get_local_ip():
+    """Get the local IP address of the current machine."""
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # Doesn't matter if it's not reachable
+        s.connect(('10.254.254.254', 1))
+        ip = s.getsockname()[0]
+    except Exception:
+        ip = '127.0.0.1'
+    finally:
+        s.close()
+    return ip
+
+# Automatically find the local IP address
+local_ip = get_local_ip()
+SPOTIPY_REDIRECT_URI = f'http://{local_ip}:8080/callback'
 
 # Spotify scope
 SCOPE = 'user-read-playback-state,user-modify-playback-state'
